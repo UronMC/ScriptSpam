@@ -1,0 +1,205 @@
+--[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+
+local TextChatService = game:GetService("TextChatService")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local function createGui(player)
+    local ScreenGui = Instance.new("ScreenGui")
+    local Frame = Instance.new("Frame")
+    local MessageBox = Instance.new("TextBox")
+    local CountBox = Instance.new("TextBox")
+    local DelayBox = Instance.new("TextBox")
+    local SendButton = Instance.new("TextButton")
+    local ToggleButton = Instance.new("TextButton")
+    local CloseButton = Instance.new("TextButton")
+    local SettingsButton = Instance.new("TextButton")
+    local SettingsFrame = Instance.new("Frame")
+    local LanguageButton = Instance.new("TextButton")
+    local CensorshipToggle = Instance.new("TextButton")
+    local AuthorLabel = Instance.new("TextLabel")
+
+    ScreenGui.Parent = player:WaitForChild("PlayerGui")
+
+    Frame.Size = UDim2.new(0, 300, 0, 390)
+    Frame.Position = UDim2.new(0.5, -150, 0.5, -195)
+    Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    Frame.BorderSizePixel = 0
+    Frame.Active = true
+    Frame.Draggable = true
+    Frame.Parent = ScreenGui
+
+    MessageBox.Size = UDim2.new(0, 280, 0, 40)
+    MessageBox.Position = UDim2.new(0, 10, 0, 10)
+    MessageBox.PlaceholderText = "Введите сообщение"
+    MessageBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    MessageBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+    MessageBox.BorderSizePixel = 0
+    MessageBox.Parent = Frame
+
+    CountBox.Size = UDim2.new(0, 280, 0, 40)
+    CountBox.Position = UDim2.new(0, 10, 0, 60)
+    CountBox.PlaceholderText = "Введите количество"
+    CountBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    CountBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+    CountBox.BorderSizePixel = 0
+    CountBox.Parent = Frame
+
+    DelayBox.Size = UDim2.new(0, 280, 0, 40)
+    DelayBox.Position = UDim2.new(0, 10, 0, 110)
+    DelayBox.PlaceholderText = "Задержка (сек)"
+    DelayBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    DelayBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+    DelayBox.BorderSizePixel = 0
+    DelayBox.Parent = Frame
+
+    SendButton.Size = UDim2.new(0, 280, 0, 40)
+    SendButton.Position = UDim2.new(0, 10, 0, 160)
+    SendButton.Text = "Отправить"
+    SendButton.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
+    SendButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SendButton.BorderSizePixel = 0
+    SendButton.Parent = Frame
+
+    SettingsButton.Size = UDim2.new(0, 280, 0, 40)
+    SettingsButton.Position = UDim2.new(0, 10, 0, 210)
+    SettingsButton.Text = "Настройки"
+    SettingsButton.BackgroundColor3 = Color3.fromRGB(60, 0, 0)
+    SettingsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SettingsButton.BorderSizePixel = 0
+    SettingsButton.Parent = Frame
+
+    CloseButton.Size = UDim2.new(0, 50, 0, 40)
+    CloseButton.Position = UDim2.new(1, -60, 0, 10)
+    CloseButton.Text = "X"
+    CloseButton.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+    CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CloseButton.BorderSizePixel = 0
+    CloseButton.Parent = Frame
+
+    ToggleButton.Size = UDim2.new(0, 120, 0, 40)
+    ToggleButton.Position = UDim2.new(0, 10, 0, 10)
+    ToggleButton.Text = "Свернуть/Развернуть"
+    ToggleButton.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
+    ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ToggleButton.BorderSizePixel = 0
+    ToggleButton.Parent = ScreenGui
+
+    SettingsFrame.Size = UDim2.new(0, 300, 0, 150)
+    SettingsFrame.Position = UDim2.new(0.5, -150, 0.5, -75)
+    SettingsFrame.BackgroundColor3 = Color3.fromRGB(60, 0, 0)
+    SettingsFrame.Visible = false
+    SettingsFrame.Parent = ScreenGui
+
+    LanguageButton.Size = UDim2.new(0, 280, 0, 50)
+    LanguageButton.Position = UDim2.new(0, 10, 0, 10)
+    LanguageButton.Text = "Изменить язык"
+    LanguageButton.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
+    LanguageButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    LanguageButton.BorderSizePixel = 0
+    LanguageButton.Parent = SettingsFrame
+
+    CensorshipToggle.Size = UDim2.new(0, 280, 0, 50)
+    CensorshipToggle.Position = UDim2.new(0, 10, 0, 70)
+    CensorshipToggle.Text = "Цензура включена"
+    CensorshipToggle.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
+    CensorshipToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CensorshipToggle.BorderSizePixel = 0
+    CensorshipToggle.Parent = SettingsFrame
+
+    AuthorLabel.Size = UDim2.new(1, 0, 0, 20)
+    AuthorLabel.Position = UDim2.new(0, 0, 1, -20)
+    AuthorLabel.Text = "Автор: @Plablogx (TG)"
+    AuthorLabel.BackgroundTransparency = 1
+    AuthorLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+    AuthorLabel.TextScaled = true
+    AuthorLabel.Font = Enum.Font.SourceSans
+    AuthorLabel.Parent = Frame
+
+    local guiClosed = false
+    local censorshipEnabled = true
+    local currentLanguage = "ru"
+
+    local function sendMessages()
+        local message = MessageBox.Text .. (censorshipEnabled and "" or " le le le le")
+        local count = tonumber(CountBox.Text)
+        local delay = tonumber(DelayBox.Text) or 1
+
+        if message ~= "" and count then
+            for i = 1, count do
+                local chatChannel = TextChatService:WaitForChild("TextChannels"):WaitForChild("RBXGeneral")
+                chatChannel:SendAsync(message)
+                task.wait(delay)
+            end
+        else
+            warn("Пожалуйста, введите корректное сообщение, количество и задержку.")
+        end
+    end
+
+    SendButton.MouseButton1Click:Connect(sendMessages)
+
+    local isFrameVisible = true
+    ToggleButton.MouseButton1Click:Connect(function()
+        isFrameVisible = not isFrameVisible
+        Frame.Visible = isFrameVisible
+        ToggleButton.Text = isFrameVisible and "Свернуть" or "Развернуть"
+    end)
+
+    SettingsButton.MouseButton1Click:Connect(function()
+        SettingsFrame.Visible = true
+    end)
+
+    CloseButton.MouseButton1Click:Connect(function()
+        guiClosed = true
+        ScreenGui:Destroy()
+    end)
+
+    local SettingsCloseButton = Instance.new("TextButton")
+    SettingsCloseButton.Size = UDim2.new(0, 50, 0, 50)
+    SettingsCloseButton.Position = UDim2.new(1, -60, 0, 10)
+    SettingsCloseButton.Text = "X"
+    SettingsCloseButton.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+    SettingsCloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SettingsCloseButton.BorderSizePixel = 0
+    SettingsCloseButton.Parent = SettingsFrame
+    SettingsCloseButton.MouseButton1Click:Connect(function()
+        SettingsFrame.Visible = false
+    end)
+
+    CensorshipToggle.MouseButton1Click:Connect(function()
+        censorshipEnabled = not censorshipEnabled
+        CensorshipToggle.Text = censorshipEnabled and "Цензура включена" or "Цензура отключена"
+    end)
+
+    LanguageButton.MouseButton1Click:Connect(function()
+        currentLanguage = (currentLanguage == "ru") and "en" or "ru"
+        MessageBox.PlaceholderText = (currentLanguage == "ru") and "Введите сообщение" or "Enter message"
+        CountBox.PlaceholderText = (currentLanguage == "ru") and "Введите количество" or "Enter count"
+        DelayBox.PlaceholderText = (currentLanguage == "ru") and "Задержка (сек)" or "Delay (sec)"
+        SendButton.Text = (currentLanguage == "ru") and "Отправить" or "Send"
+        ToggleButton.Text = (currentLanguage == "ru") and "Свернуть/Развернуть" or "Collapse/Expand"
+        SettingsButton.Text = (currentLanguage == "ru") and "Настройки" or "Settings"
+        LanguageButton.Text = (currentLanguage == "ru") and "Изменить язык" or "Change Language"
+        CensorshipToggle.Text = censorshipEnabled and 
+            ((currentLanguage == "ru") and "Цензура включена" or "Censorship Enabled") or 
+            ((currentLanguage == "ru") and "Цензура отключена" or "Censorship Disabled")
+    end)
+
+    print("Создан GUI для игрока: " .. player.Name)
+end
+
+Players.PlayerAdded:Connect(function(player)
+    createGui(player)
+end)
+
+for _, player in ipairs(Players:GetPlayers()) do
+    createGui(player)
+end
+
+RunService.RenderStepped:Connect(function()
+    -- Постоянный цикл (при необходимости)
+end)
+
+print("Скрипт загружен и работает.")
